@@ -1,0 +1,22 @@
+
+
+.emptyInput {
+    border: 5px solid indianred;
+}
+
+.emptyInputText {
+    color: #703939;
+}
+
+.input {
+    border: 5px solid #6ccce4;
+}
+
+.activeFilter {
+    color: #216085;
+    background-color: #e6ac7b;
+}
+
+.activeTask {
+    opacity: 0.5;
+}

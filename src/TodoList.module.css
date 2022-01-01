@@ -1,0 +1,10 @@
+
+
+.titleTodoList {
+    display: flex;
+}
+.titleTodoList button {
+    width: auto;
+    height: 20px;
+    margin: 25px 5px;
+}
