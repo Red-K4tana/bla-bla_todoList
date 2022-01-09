@@ -99,8 +99,8 @@ test('new array should be added when new todolist is added', () => {
             {id: v1(), title: "MEAT", isDone: false},
         ]
     }
-
-    const endState: TasksStateType = tasksReducer(startState, addTodoListAC('New Title'))
+    const todoListID = v1()
+    const endState: TasksStateType = tasksReducer(startState, addTodoListAC('New Title', todoListID))
     const newKey = Object.keys(endState).find(k => k !== 'todoListID_1' && k !== 'todoListID_2')
 
     if(!newKey) {
@@ -108,5 +108,6 @@ test('new array should be added when new todolist is added', () => {
     }
 
     expect(Object.keys(endState).length).toBe(3)
+    expect(newKey).toBe(todoListID)
     expect(endState[newKey]).toEqual([])
 })
