@@ -1,10 +1,10 @@
 import {v1} from "uuid";
 import {TodoListsType, FilterValuesType} from "../App";
 import {
-    AddTodoListAC,
-    ChangeTodoListFilterAC,
-    ChangeTodoListTitleAC,
-    RemoveTodoListAC,
+    addTodoListAC,
+    changeTodoListFilterAC,
+    changeTodoListTitleAC,
+    removeTodoListAC,
     todoListReducer
 } from "./todoList-reducer";
 
@@ -18,7 +18,7 @@ test('correct todolist should be removed', () => {
     ]
 
     /*const endState = todoListReducer(startState, {type: 'REMOVE-TODOLIST', id: todoListID_1})*/
-    const endState = todoListReducer(startState, RemoveTodoListAC(startState[0].id))
+    const endState = todoListReducer(startState, removeTodoListAC(startState[0].id))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todoListID_2)
@@ -36,7 +36,7 @@ test('correct todolist should be added', () => {
     ]
 
     /*const endState = todoListReducer(startState, {type: 'ADD-TODOLIST', title: newTodoListTitle})*/
-    const endState = todoListReducer(startState, AddTodoListAC(newTodoListTitle))
+    const endState = todoListReducer(startState, addTodoListAC(newTodoListTitle))
 
     expect(endState.length).toBe(3)
     expect(endState[2].title).toBe(newTodoListTitle)
@@ -58,7 +58,7 @@ test('correct todolist should change its name', () => {
         id: todoListID_2
     }*/
 
-    const endState = todoListReducer(startState, ChangeTodoListTitleAC(newTodoListTitle, todoListID_2))
+    const endState = todoListReducer(startState, changeTodoListTitleAC(newTodoListTitle, todoListID_2))
 
     expect(endState[1].title).toBe(newTodoListTitle)
     expect(endState[0].title).toBe('What to learn')
@@ -80,7 +80,7 @@ test('correct todolist should change its filter', () => {
         id: todoListID_2
     }*/
 
-    const endState = todoListReducer(startState, ChangeTodoListFilterAC(newTodoListFilter, todoListID_2))
+    const endState = todoListReducer(startState, changeTodoListFilterAC(newTodoListFilter, todoListID_2))
 
     expect(endState[1].filter).toBe(newTodoListFilter)
     expect(endState[0].filter).toBe('All')
