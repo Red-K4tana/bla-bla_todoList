@@ -6,7 +6,7 @@
 .App > div {
   margin-right: 50px;
 }
-.todoList {
+.todolist {
   display: flex;
   flex-wrap: wrap;
 }
