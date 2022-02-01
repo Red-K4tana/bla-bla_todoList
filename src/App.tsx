@@ -42,7 +42,7 @@ function App() {
         {id: todolistID_1, title: 'What to learn', filter: 'All'},
         {id: todolistID_2, title: 'What to buy', filter: 'All'}
     ])
-    const [tasks, setTasks] = useReducer/*почему не типизируется в этом месте?*/(tasksReducer,
+    const [tasks, setTasks] = useReducer(tasksReducer,
         {
             [todolistID_1]: [
                 {id: v1(), title: "HTML", isDone: false},
@@ -125,7 +125,7 @@ function App() {
         <div className={'todolist'}>
             {todolistsComp}
             <div className={'add-tl'}>
-                <AddItemForm name={'AddTL'} addItem={addTodolist}/>
+                <AddItemForm nameButton={'AddTL'} addItem={addTodolist}/>
             </div>
         </div>
     )

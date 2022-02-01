@@ -61,7 +61,7 @@ export const Todolist = (props: TodolistPropsType) => {
                     <Button name={'RemoveTL'} callback={() => props.removeTodolist(props.todolistID)}/>
                 </div>
                 <div>
-                    <AddItemForm name={'Add Task'} addItem={addTask}/>
+                    <AddItemForm nameButton={'Add Task'} addItem={addTask}/>
                 </div>
                 <ul>
                     {taskJSX}

@@ -1,5 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {FilterValuesType} from "./App";
+import React from "react";
 import {Button} from "./components/Button";
 import s from "./components/Input.module.css";
 import tl from './Todolist.module.css'
@@ -10,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {TodolistsType} from "./AppWithRedux";
 import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./reducer/todolist-reducer";
-import {addTaskItemAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskItemAC} from "./reducer/tasks-reducer";
+import {addTaskItemAC,} from "./reducer/tasks-reducer";
 import {TaskItem} from "./components/TaskItem";
 
 type TodolistPropsType = {
@@ -57,7 +56,7 @@ export const TodolistWithRedux = (props: TodolistPropsType) => {
                     <Button name={'RemoveTL'} callback={() => dispatch(removeTodolistAC(todolist.id))}/>
                 </div>
                 <div>
-                    <AddItemForm name={'Add Task'} addItem={addTask}/>
+                    <AddItemForm nameButton={'Add Task'} addItem={addTask}/>
                 </div>
                 <ul>
                     {taskJSX}

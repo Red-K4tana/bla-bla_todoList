@@ -1,13 +1,11 @@
 import React from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {addTodolistAC,} from "./reducer/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {TodolistWithRedux} from "./TodolistWithRedux";
-
 
 export type FilterValuesType = 'All' | 'Active' | 'Completed' | 'X'
 export type TasksType = {
@@ -26,7 +24,6 @@ export type TodolistsType = {
 
 export const AppWithRedux = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistsType>>((state)=> state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>((state)=> state.tasks)
     const dispatch = useDispatch()
 
     const addTodolist = (title: string) => {
@@ -52,7 +49,7 @@ export const AppWithRedux = () => {
         <div className={'todolist'}>
             {todolistsComp}
             <div className={'add-tl'}>
-                <AddItemForm name={'AddTL'} addItem={addTodolist}/>
+                <AddItemForm nameButton={'AddTL'} addItem={addTodolist}/>
             </div>
         </div>
     )
