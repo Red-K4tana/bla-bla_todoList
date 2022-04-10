@@ -3,7 +3,7 @@ import {Input} from "./Input";
 import {Button} from "./Button";
 
 type AddItemFormPropsType = {
-    nameButton: string
+    name: string
     addItem: (title: string)=> void
 }
 
@@ -38,7 +38,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                 onKeyPressHandler={pressEnter}
                 error={error}
             />
-            <Button name={props.nameButton} callback={addItem}/>
+            <Button name={props.name} callback={addItem}/>
             {error && errorMessage}
         </div>
     );
