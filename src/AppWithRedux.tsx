@@ -1,12 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./Redux/store";
-import {
-    AddTodolistAC,
-} from "./Redux/todolists-reducer";
+import {addTodolistAC, addTodolistTC, getTodolistTC,} from "./Redux/todolists-reducer";
 import {TodolistWithRedux} from "./TodolistWithRedux";
 
 export type FilterValuesType = 'All' | 'Active' | 'Completed' | 'X'
@@ -28,9 +26,12 @@ export const AppWithRedux = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
     const dispatch = useDispatch()
 
+    useEffect(()=> {
+        dispatch(getTodolistTC())
+    }, [])
+
     const addTodolist = (title: string) => {
-        const todolistID = v1()
-        dispatch(AddTodolistAC(todolistID, title))
+        dispatch(addTodolistTC(title))
     }
     //---------------------------------------------------------------------------------
     const todolistsComp = todolists.map(tl => {

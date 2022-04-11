@@ -7,7 +7,12 @@ import {TasksType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
-import {ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC} from "./Redux/todolists-reducer";
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleAC, changeTodolistTitleTC,
+    removeTodolistAC,
+    removeTodolistTC
+} from "./Redux/todolists-reducer";
 import {addTaskItemAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskItemAC} from "./Redux/tasks-reducer";
 import {AppRootStateType} from "./Redux/store";
 import {TodolistsType} from "./AppWithRedux";
@@ -24,13 +29,13 @@ export const TodolistWithRedux = (props: TodolistPropsType) => {
     const dispatch = useDispatch();
 
     const tsarChangeFilter = (filter: FilterValuesType) => { //кнопки фильтра
-        dispatch(ChangeTodolistFilterAC(todolist.id, filter))
+        dispatch(changeTodolistFilterAC(todolist.id, filter))
     }
     const changeTodolistTitle = (newTitle: string) => {
-        dispatch(ChangeTodolistTitleAC(todolist.id, newTitle))
+        dispatch(changeTodolistTitleTC(todolist.id, newTitle))
     }
     const removeTodolist = (todolistID: string) => {
-        dispatch(RemoveTodolistAC(todolistID))
+        dispatch(removeTodolistTC(todolistID))
     }
     const addTask = (newTitle: string) => {
         dispatch(addTaskItemAC(todolist.id, newTitle))

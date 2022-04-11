@@ -1,10 +1,10 @@
 import {v1} from "uuid";
 import {TodolistsType, FilterValuesType} from "../App";
 import {
-    AddTodolistAC,
-    ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC,
-    RemoveTodolistAC,
+    addTodolistAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
     todolistsReducer
 } from "./todolists-reducer";
 
@@ -18,7 +18,7 @@ test('correct todolist should be removed', () => {
     ];
 
     /*const endState = todolistReducer(startState, {type: 'REMOVE-Todolist', id: todolistID_1})*/
-    const endState = todolistsReducer(startState, RemoveTodolistAC(startState[0].id))
+    const endState = todolistsReducer(startState, removeTodolistAC(startState[0].id))
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistID_2);
@@ -37,7 +37,7 @@ test('correct todolist should be added', () => {
 
     const todolistID = v1();
     /*const endState = todolistReducer(startState, {type: 'ADD-Todolist', title: newTodolistTitle})*/
-    const endState = todolistsReducer(startState, AddTodolistAC(todolistID, newTodolistTitle));
+    const endState = todolistsReducer(startState, addTodolistAC(todolistID, newTodolistTitle));
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
@@ -60,7 +60,7 @@ test('correct todolist should change its name', () => {
         id: todolistID_2
     }*/
 
-    const endState = todolistsReducer(startState, ChangeTodolistTitleAC(newTodolistTitle, todolistID_2))
+    const endState = todolistsReducer(startState, changeTodolistTitleAC(newTodolistTitle, todolistID_2))
 
     expect(endState[1].title).toBe(newTodolistTitle)
     expect(endState[0].title).toBe('What to learn')
@@ -82,7 +82,7 @@ test('correct todolist should change its filter', () => {
         id: todolistID_2
     }*/
 
-    const endState = todolistsReducer(startState, ChangeTodolistFilterAC(todolistID_2, newTodolistFilter))
+    const endState = todolistsReducer(startState, changeTodolistFilterAC(todolistID_2, newTodolistFilter))
 
     expect(endState[1].filter).toBe(newTodolistFilter)
     expect(endState[0].filter).toBe('All')
