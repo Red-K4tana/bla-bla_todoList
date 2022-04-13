@@ -4,8 +4,9 @@ import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./Redux/store";
-import {addTodolistAC, addTodolistTC, getTodolistTC,} from "./Redux/todolists-reducer";
+import {addTodolistAC, addTodolistTC, getTodolistTC, TodolistDomainType,} from "./Redux/todolists-reducer";
 import {TodolistWithRedux} from "./TodolistWithRedux";
+import {TaskType} from "./api/todolist-api";
 
 export type FilterValuesType = 'All' | 'Active' | 'Completed' | 'X'
 export type TasksType = {
@@ -19,16 +20,16 @@ export type TodolistsType = {
     filter: FilterValuesType
 }
 export type TasksStateType = {
-    [todolistID: string]: Array<TasksType>
+    [todolistID: string]: Array<TaskType>
 }
 
 export const AppWithRedux = () => {
-    const todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
-    const dispatch = useDispatch()
-
     useEffect(()=> {
         dispatch(getTodolistTC())
     }, [])
+
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
+    const dispatch = useDispatch()
 
     const addTodolist = (title: string) => {
         dispatch(addTodolistTC(title))

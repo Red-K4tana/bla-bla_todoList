@@ -26,6 +26,7 @@ export const TodolistWithRedux = (props: TodolistPropsType) => {
     const todolist = useSelector<AppRootStateType, TodolistsType>(state => state.todolists
         .filter(tl => tl.id === props.todolistID)[0])
     const tasks = useSelector<AppRootStateType, Array<TasksType>>(state => state.tasks[todolist.id]);
+    console.log( 'tasks: ', tasks)
     const dispatch = useDispatch();
 
     const tsarChangeFilter = (filter: FilterValuesType) => { //кнопки фильтра

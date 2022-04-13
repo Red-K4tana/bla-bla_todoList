@@ -30,7 +30,7 @@ type ActionType =
     | ChangeTodolistFilterActionType
     | GetTodolistActionType
 
-//ACTION CREATOR
+//ACTION CREATORS
 export const removeTodolistAC = (todolistID: string): RemoveTodolistActionType => {
     return {type: 'REMOVE-TODOLIST' as const, id: todolistID}
 }
@@ -47,7 +47,7 @@ export const getTodolistsAC = (todolists: Array<TodolistType>) => {
     return {type: 'GET-TODOLISTS', todolists,} as const
 }
 
-//THUNK CREATOR
+//THUNK CREATORS
 export const getTodolistTC = () => (dispatch: Dispatch) => {
     todolistAPI.getTodolists()
         .then(res => {
@@ -96,19 +96,10 @@ export const todolistsReducer = (todolists = initialTodolists, action: ActionTyp
             return [{id: action.id, title: action.title, filter: 'All', addedDate: '', order: 0}, ...todolists]
         }
         case 'CHANGE-TODOLIST-TITLE': {
-            const todolist = todolists.find(tl => tl.id === action.id)
-            if (todolist) {
-                todolist.title = action.title
-            }
-            return [...todolists] // СПРОСИТЬ ПОЧЕМУ ВОЗРАЩАЕМ ТУДУЛИСТЫ
+            return todolists.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
         }
         case 'CHANGE-TODOLIST-FILTER': {
-            const todolist = todolists.find(tl => tl.id === action.id);
-            if (todolist) {
-                // если нашёлся - изменим ему заголовок
-                todolist.filter = action.filter;
-            }
-            return [...todolists]
+            return todolists.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
         }
         default:
             return todolists

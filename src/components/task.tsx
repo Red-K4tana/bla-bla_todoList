@@ -2,10 +2,11 @@ import React, {ChangeEvent} from 'react';
 import s from "./Input.module.css";
 import {Button} from "./Button";
 import {EditableSpan} from "./EditableSpan";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskItemAC} from "../Redux/tasks-reducer";
+import {changeTaskStatusTC, changeTaskTitleAC, removeTaskItemAC} from "../Redux/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../Redux/store";
 import {TasksType} from "../AppWithRedux";
+import {TaskStatuses} from "../api/todolist-api";
 
 type TaskPropsType = {
     todolistID: string
@@ -23,8 +24,10 @@ export const Task = (props: TaskPropsType) => {
     const removeTaskItem = (taskID: string) => {
         dispatch(removeTaskItemAC(props.todolistID, taskID))
     }
-    const onChangeStatusHandler = (taskId: string, event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatusAC(props.todolistID, taskId, event.currentTarget.checked))
+    const onChangeStatusHandler = (taskID: string, event: ChangeEvent<HTMLInputElement>) => {
+        // можно передать таску полностью, чтобы потом в санке не пришлось запрашивать ее
+        const newIsDoneValue = event.currentTarget.checked
+        dispatch(changeTaskStatusTC(props.todolistID, taskID, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))
     }
 
     return (
