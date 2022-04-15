@@ -7,7 +7,7 @@ type AddItemFormPropsType = {
     addItem: (title: string)=> void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo( (props: AddItemFormPropsType) => {
     const [error, setError] = useState(false)
     const [title, setTitle] = useState('')
 
@@ -30,6 +30,10 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     }
     const errorMessage = <div style={{color: 'red'}}>This is required</div>
 
+    // ====================================
+    console.log('AddItemForm ', props.name)
+    // ====================================
+
     return (
         <div>
             <Input
@@ -42,5 +46,5 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             {error && errorMessage}
         </div>
     );
-};
+});
 

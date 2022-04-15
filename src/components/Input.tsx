@@ -9,7 +9,11 @@ type propsType = {
 
 }
 
-export const Input = (props: propsType) => {
+export const Input = React.memo( (props: propsType) => {
+
+    // ====================================
+    console.log('Input ', props.value)
+    // ====================================
 
     return (
         <input className={props.error ? s.emptyInput : s.input}
@@ -18,4 +22,4 @@ export const Input = (props: propsType) => {
                value={props.value}
         />
     )
-}
+})

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {AddItemForm} from "./components/AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
@@ -22,17 +22,21 @@ export type TasksStateType = {
     [todolistID: string]: Array<TaskType>
 }
 
-export const AppWithRedux = () => {
+export const AppWithRedux = React.memo (() => {
     useEffect(()=> {
         dispatch(getTodolistTC())
     }, [])
 
+    // ====================================
+    console.log('AppWithRedux ')
+    // ====================================
+
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const dispatch = useDispatch()
 
-    const addTodolist = (title: string) => {
+    const addTodolist = useCallback( (title: string) => {
         dispatch(addTodolistTC(title))
-    }
+    }, [dispatch])
     //---------------------------------------------------------------------------------
     const todolistsComp = todolists.map(tl => {
 
@@ -54,6 +58,6 @@ export const AppWithRedux = () => {
             {todolistsComp}
         </div>
     )
-}
+})
 
 

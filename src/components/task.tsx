@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import s from "./Input.module.css";
 import {Button} from "./Button";
 import {EditableSpan} from "./EditableSpan";
@@ -16,22 +16,26 @@ type TaskPropsType = {
     taskID: string
 }
 
-export const Task = (props: TaskPropsType) => {
+export const Task = React.memo( (props: TaskPropsType) => {
     const task = useSelector<AppRootStateType, TaskType>(state => state.tasks[props.todolistID]
         .filter(task => task.id === props.taskID)[0])
     const dispatch = useDispatch()
 
-    const changeTaskTitle = (newTitle: string) => {
+    // ====================================
+    console.log('Task ', props.taskID)
+    // ====================================
+
+    const changeTaskTitle = useCallback( (newTitle: string) => {
         dispatch(changeTaskTitleTC(task, newTitle))
-    }
-    const removeTaskItem = (taskID: string) => {
+    }, [task])
+    const removeTaskItem = useCallback( (taskID: string) => {
         dispatch(removeTaskTC(props.todolistID, taskID))
-    }
-    const onChangeStatusHandler = (taskID: string, event: ChangeEvent<HTMLInputElement>) => {
+    }, [props.todolistID])
+    const onChangeStatusHandler = useCallback( (taskID: string, event: ChangeEvent<HTMLInputElement>) => {
         // можно передать таску полностью, чтобы потом в санке не пришлось запрашивать ее
         const newIsDoneValue = event.currentTarget.checked
         dispatch(changeTaskStatusTC(props.todolistID, taskID, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))
-    }
+    }, [props.todolistID])
 
     return (
         <li key={task.id} className={task.status === TaskStatuses.Completed ? s.activeTask : ''}>
@@ -42,4 +46,4 @@ export const Task = (props: TaskPropsType) => {
             <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
         </li>
     );
-};
+})

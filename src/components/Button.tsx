@@ -6,11 +6,16 @@ type propsType = {
     color?: string
 }
 
-export const Button = (props: propsType) => {
+export const Button = React.memo( (props: propsType) => {
     const onClickHandler = () => {
         props.callback()
     }
+
+    // ====================================
+    console.log('Button ', props.name)
+    // ====================================
+
     return(
         <button className={props.color} onClick={onClickHandler}>{props.name}</button>
     )
-}
+})

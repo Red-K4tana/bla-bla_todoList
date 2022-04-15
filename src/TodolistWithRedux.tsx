@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {FilterValuesType} from "./App";
 import {Button} from "./components/Button";
 import s from "./components/Input.module.css";
@@ -21,7 +21,7 @@ type TodolistPropsType = {
     todolistID: string
 }
 
-export const TodolistWithRedux = (props: TodolistPropsType) => {
+export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists
         .filter(tl => tl.id === props.todolistID)[0])
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
@@ -32,18 +32,22 @@ export const TodolistWithRedux = (props: TodolistPropsType) => {
         dispatch(getTasksTC(props.todolistID))
     }, [])
 
-    const tsarChangeFilter = (filter: FilterValuesType) => { //кнопки фильтра
+    // ====================================
+    console.log('TodolistWithRedux ', props.todolistID)
+    // ====================================
+
+    const tsarChangeFilter = useCallback( (filter: FilterValuesType) => { //кнопки фильтра
         dispatch(changeTodolistFilterAC(todolist.id, filter))
-    }
-    const changeTodolistTitle = (newTitle: string) => {
+    }, [todolist.id])
+    const changeTodolistTitle = useCallback( (newTitle: string) => {
         dispatch(changeTodolistTitleTC(todolist.id, newTitle))
-    }
-    const removeTodolist = (todolistID: string) => {
+    }, [todolist.id])
+    const removeTodolist = useCallback( (todolistID: string) => {
         dispatch(removeTodolistTC(todolistID))
-    }
-    const addTask = (newTitle: string) => {
+    }, [dispatch])
+    const addTask = useCallback( (newTitle: string) => {
         dispatch(addTaskTC(todolist.id, newTitle))
-    }
+    }, [todolist.id])
     //-------------------------------------------------------------------------------------------
     let tasksAfterFilter = tasks;
     if (todolist.filter === 'Active') {
@@ -85,5 +89,5 @@ export const TodolistWithRedux = (props: TodolistPropsType) => {
             </div>
         </div>
     )
-}
+})
 
