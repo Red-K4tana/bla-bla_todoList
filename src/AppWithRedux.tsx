@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./Redux/store";
-import {addTodolistAC, addTodolistTC, getTodolistTC, TodolistDomainType,} from "./Redux/todolists-reducer";
+import {addTodolistTC, getTodolistTC, TodolistDomainType,} from "./Redux/todolists-reducer";
 import {TodolistWithRedux} from "./TodolistWithRedux";
 import {TaskType} from "./api/todolist-api";
 
@@ -49,10 +48,10 @@ export const AppWithRedux = () => {
     //-------------------------------------------------------------------------------
     return (
         <div className={'todolist'}>
-            {todolistsComp}
             <div className={'add-tl'}>
                 <AddItemForm name={'AddTL'} addItem={addTodolist}/>
             </div>
+            {todolistsComp}
         </div>
     )
 }

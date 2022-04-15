@@ -30,7 +30,7 @@ type ActionType =
     | ChangeTodolistFilterActionType
     | GetTodolistActionType
 
-//ACTION CREATORS
+//ACTION CREATORS ====================================================================================== ACTION CREATORS
 export const removeTodolistAC = (todolistID: string): RemoveTodolistActionType => {
     return {type: 'REMOVE-TODOLIST' as const, id: todolistID}
 }
@@ -44,10 +44,10 @@ export const changeTodolistFilterAC = (todolistID: string, newFilter: FilterValu
     return {type: 'CHANGE-TODOLIST-FILTER' as const, filter: newFilter, id: todolistID}
 }
 export const getTodolistsAC = (todolists: Array<TodolistType>) => {
-    return {type: 'GET-TODOLISTS', todolists,} as const
+    return {type: 'GET-TODOLISTS', todolists} as const
 }
 
-//THUNK CREATORS
+//THUNK CREATORS ======================================================================================== THUNK CREATORS
 export const getTodolistTC = () => (dispatch: Dispatch) => {
     todolistAPI.getTodolists()
         .then(res => {
@@ -83,7 +83,7 @@ const initialTodolists: Array<TodolistDomainType> = [
     {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: '', order: 0}*/
 ]
 
-//TODOLIST-REDUCER
+//TODOLIST-REDUCER ==================================================================================== TODOLIST-REDUCER
 export const todolistsReducer = (todolists = initialTodolists, action: ActionType): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'GET-TODOLISTS': {

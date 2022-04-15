@@ -1,33 +1,36 @@
-import React, {ChangeEvent} from "react";
+import React, {useEffect} from "react";
 import {FilterValuesType} from "./App";
 import {Button} from "./components/Button";
 import s from "./components/Input.module.css";
 import tl from './Todolist.module.css'
-import {TasksType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {
     changeTodolistFilterAC,
-    changeTodolistTitleAC, changeTodolistTitleTC,
-    removeTodolistAC,
-    removeTodolistTC
+    changeTodolistTitleTC,
+    removeTodolistTC,
+    TodolistDomainType
 } from "./Redux/todolists-reducer";
-import {addTaskItemAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskItemAC} from "./Redux/tasks-reducer";
+import {addTaskTC, getTasksTC} from "./Redux/tasks-reducer";
 import {AppRootStateType} from "./Redux/store";
-import {TodolistsType} from "./AppWithRedux";
 import {Task} from "./components/task";
+import {TaskStatuses, TaskType} from "./api/todolist-api";
 
 type TodolistPropsType = {
     todolistID: string
 }
 
 export const TodolistWithRedux = (props: TodolistPropsType) => {
-    const todolist = useSelector<AppRootStateType, TodolistsType>(state => state.todolists
+    const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists
         .filter(tl => tl.id === props.todolistID)[0])
-    const tasks = useSelector<AppRootStateType, Array<TasksType>>(state => state.tasks[todolist.id]);
-    console.log( 'tasks: ', tasks)
+    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
+
     const dispatch = useDispatch();
+
+    useEffect(()=> {
+        dispatch(getTasksTC(props.todolistID))
+    }, [])
 
     const tsarChangeFilter = (filter: FilterValuesType) => { //кнопки фильтра
         dispatch(changeTodolistFilterAC(todolist.id, filter))
@@ -39,15 +42,15 @@ export const TodolistWithRedux = (props: TodolistPropsType) => {
         dispatch(removeTodolistTC(todolistID))
     }
     const addTask = (newTitle: string) => {
-        dispatch(addTaskItemAC(todolist.id, newTitle))
+        dispatch(addTaskTC(todolist.id, newTitle))
     }
     //-------------------------------------------------------------------------------------------
     let tasksAfterFilter = tasks;
     if (todolist.filter === 'Active') {
-        tasksAfterFilter = tasks.filter(task => !task.isDone)
+        tasksAfterFilter = tasks.filter(task => task.status === TaskStatuses.New)
     }
     if (todolist.filter === 'Completed') {
-        tasksAfterFilter = tasks.filter(task => task.isDone)
+        tasksAfterFilter = tasks.filter(task => task.status  === TaskStatuses.Completed)
     }
     //-------------------------------------------------------------------------------------------
     const tasksJSX = tasksAfterFilter.map(task => {
