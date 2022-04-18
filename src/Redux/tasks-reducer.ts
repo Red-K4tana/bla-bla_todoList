@@ -3,6 +3,7 @@ import {AddTodolistActionType, GetTodolistActionType, RemoveTodolistActionType} 
 import {Dispatch} from "redux";
 import {TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {AppRootStateType} from "./store";
+import {setAppStatusAC} from "./app-reducer";
 
 type RemoveTaskItemActionType = {
     type: 'REMOVE-TASK-ITEM'
@@ -57,24 +58,31 @@ export const getTasksAC = (todolistID: string, tasks: Array<TaskType>) => {
 
 //THUNK CREATORS ======================================================================================== THUNK CREATORS
 export const getTasksTC = (todolistID: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.getTasks(todolistID)
         .then(res => {
             dispatch(getTasksAC(todolistID, res.data.items))
+            dispatch(setAppStatusAC('idle'))
         })
 }
 export const removeTaskTC = (todolistID: string, taskID: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.deleteTask(todolistID, taskID)
         .then(() => {
             dispatch(removeTaskItemAC(todolistID, taskID))
+            dispatch(setAppStatusAC('idle'))
         })
 }
 export const addTaskTC = (todolistID: string, title: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.createTask(todolistID, title)
         .then(res => {
             dispatch(addTaskItemAC(res.data.data.item))
+            dispatch(setAppStatusAC('idle'))
         })
 }
 export const changeTaskStatusTC = (todolistID: string, taskID: string, status: TaskStatuses) => (dispatch: Dispatch, getState: ()=> AppRootStateType) => {
+    dispatch(setAppStatusAC('loading'))
     //можно обойтись без getState изначально передавая в санку таску целиком
     const currentTask = getState().tasks[todolistID].find(t => t.id === taskID)
     //можно в запрос добавить всю таску, но лучше передать только необходимые данные
@@ -90,10 +98,12 @@ export const changeTaskStatusTC = (todolistID: string, taskID: string, status: T
         todolistAPI.updateTask(todolistID, taskID, model)
             .then(res => {
                 dispatch(changeTaskStatusAC(todolistID, taskID, status))
+                dispatch(setAppStatusAC('idle'))
             })
     }
 }
 export const changeTaskTitleTC = (task: TaskType, newTitle: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     //здесь обошлись без getState и передали сразу всю таску
     const model: UpdateTaskModelType = {
         title: newTitle,
@@ -106,6 +116,7 @@ export const changeTaskTitleTC = (task: TaskType, newTitle: string) => (dispatch
     todolistAPI.updateTask(task.todoListId, task.id, model)
         .then(res => {
             dispatch(changeTaskTitleAC(task.todoListId, task.id, newTitle))
+            dispatch(setAppStatusAC('idle'))
         })
 }
 

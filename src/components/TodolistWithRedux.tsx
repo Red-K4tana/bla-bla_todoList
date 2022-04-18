@@ -1,21 +1,21 @@
 import React, {useCallback, useEffect} from "react";
-import {FilterValuesType} from "./App";
-import {Button} from "./components/Button";
-import s from "./components/Input.module.css";
-import tl from './Todolist.module.css'
-import {AddItemForm} from "./components/AddItemForm";
-import {EditableSpan} from "./components/EditableSpan";
+import {FilterValuesType} from "../AppWithRedux";
+import {Button} from "./Button";
+import s from "./Input.module.css";
+import tl from '../Todolist.module.css'
+import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleTC,
     removeTodolistTC,
     TodolistDomainType
-} from "./Redux/todolists-reducer";
-import {addTaskTC, getTasksTC} from "./Redux/tasks-reducer";
-import {AppRootStateType} from "./Redux/store";
-import {Task} from "./components/task";
-import {TaskStatuses, TaskType} from "./api/todolist-api";
+} from "../Redux/todolists-reducer";
+import {addTaskTC, getTasksTC} from "../Redux/tasks-reducer";
+import {AppRootStateType} from "../Redux/store";
+import {Task} from "./task";
+import {TaskStatuses, TaskType} from "../api/todolist-api";
 
 type TodolistPropsType = {
     todolistID: string
@@ -25,6 +25,7 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists
         .filter(tl => tl.id === props.todolistID)[0])
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
+
 
     const dispatch = useDispatch();
 
@@ -67,7 +68,8 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
 
     return (
         <div>
-            <div>
+            <div className={tl.todolist}>
+
                 <div className={tl.titleTodolist}>
                     <EditableSpan title={todolist.title} changeTitle={changeTodolistTitle}/>
                     <Button name={'RemoveTL'} callback={() => removeTodolist(todolist.id)}/>
