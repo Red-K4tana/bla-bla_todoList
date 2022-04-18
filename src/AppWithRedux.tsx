@@ -7,8 +7,9 @@ import {addTodolistTC, getTodolistTC, TodolistDomainType,} from "./Redux/todolis
 import {TaskType} from "./api/todolist-api";
 import {TodolistWithRedux} from "./components/TodolistWithRedux";
 import {RequestStatusType} from "./Redux/app-reducer";
-import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, Grid, IconButton, LinearProgress, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
+import {ErrorSnackbar} from "./components/ErrorSnackbar";
 
 export type FilterValuesType = 'All' | 'Active' | 'Completed' | 'X'
 export type TasksType = {
@@ -67,6 +68,7 @@ export const AppWithRedux = React.memo(() => {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {status === 'loading' && <LinearProgress color={'secondary'}/>}
             <Grid container style={{padding: '20px'}}>
                 <AddItemForm name={'AddTL'} addItem={addTodolist}/>
             </Grid>
@@ -75,6 +77,7 @@ export const AppWithRedux = React.memo(() => {
                     {todolistsComp}
                 </Grid>
             </Container>
+            <ErrorSnackbar />
         </div>
     )
 })
