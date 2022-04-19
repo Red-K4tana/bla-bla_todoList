@@ -23,9 +23,8 @@ type TodolistPropsType = {
 
 export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists
-        .filter(tl => tl.id === props.todolistID)[0])
+        .filter(tl => tl.id === props.todolistID)[0]);
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
-
 
     const dispatch = useDispatch();
 
@@ -71,7 +70,7 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
             <h3>
                 <EditableSpan title={todolist.title} changeTitle={changeTodolistTitle}/>
 
-                <IconButton color="secondary" onClick={()=>removeTodolist(todolist.id)}>
+                <IconButton color="secondary" onClick={()=>removeTodolist(todolist.id)} disabled={todolist.entityStatus === 'loading'}>
                     <Delete />
                 </IconButton>
             </h3>

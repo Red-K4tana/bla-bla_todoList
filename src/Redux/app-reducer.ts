@@ -1,9 +1,9 @@
 
 
-export type RequestStatusType = 'idle' | 'loading' | 'succeesded' | 'failed'
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 const initialState = {
-    status: 'idle' as RequestStatusType,
+    status: 'loading' as RequestStatusType,
     error: null as string | null
 }
 

@@ -1,3 +1,4 @@
+/*
 
 
 .titleTodolist {
@@ -10,8 +11,8 @@
 }
 
 .todolist {
-    /*border: 2px solid #216085;*/
+    !*border: 2px solid #216085;*!
     border-radius: 10px;
     padding: 5px;
     box-shadow: 0 0 10px #33454d;
-}
+}*/
