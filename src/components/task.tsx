@@ -10,6 +10,8 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../Redux/store";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 type TaskPropsType = {
     todolistID: string
@@ -38,12 +40,13 @@ export const Task = React.memo( (props: TaskPropsType) => {
     }, [props.todolistID])
 
     return (
-        <li key={task.id} className={task.status === TaskStatuses.Completed ? s.activeTask : ''}>
-            <Button name={'X'}
-                    callback={() => removeTaskItem(task.id)}/>
-            <input type="checkbox" onChange={(event) => onChangeStatusHandler(task.id, event)}
+        <div key={task.id} className={task.status === TaskStatuses.Completed ? s.activeTask : ''}>
+            <IconButton onClick={() => removeTaskItem(task.id)}>
+                <Delete/>
+            </IconButton>
+            <Checkbox color="primary" onChange={(event) => onChangeStatusHandler(task.id, event) }
                    checked={task.status === TaskStatuses.Completed}/>
             <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-        </li>
+        </div>
     );
 })

@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {TextField} from "@mui/material";
 
 type EditableSpanPropsType = {
     title: string
@@ -30,7 +31,7 @@ export const EditableSpan = React.memo( (props: EditableSpanPropsType) => {
 
     return (
         editMode
-            ? <input
+            ? <TextField
                 value={title}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}

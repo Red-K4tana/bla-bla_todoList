@@ -1,8 +1,5 @@
 import React, {useCallback, useEffect} from "react";
 import {FilterValuesType} from "../AppWithRedux";
-import {Button} from "./Button";
-import s from "./Input.module.css";
-import tl from '../Todolist.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,6 +13,9 @@ import {addTaskTC, getTasksTC} from "../Redux/tasks-reducer";
 import {AppRootStateType} from "../Redux/store";
 import {Task} from "./task";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+import Button from '@mui/material/Button';
 
 type TodolistPropsType = {
     todolistID: string
@@ -23,13 +23,12 @@ type TodolistPropsType = {
 
 export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
     const todolist = useSelector<AppRootStateType, TodolistDomainType>(state => state.todolists
-        .filter(tl => tl.id === props.todolistID)[0])
+        .filter(tl => tl.id === props.todolistID)[0]);
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
-
 
     const dispatch = useDispatch();
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(getTasksTC(props.todolistID))
     }, [])
 
@@ -37,16 +36,16 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
     console.log('TodolistWithRedux ', props.todolistID)
     // ====================================
 
-    const tsarChangeFilter = useCallback( (filter: FilterValuesType) => { //кнопки фильтра
+    const tsarChangeFilter = useCallback((filter: FilterValuesType) => { //кнопки фильтра
         dispatch(changeTodolistFilterAC(todolist.id, filter))
     }, [todolist.id])
-    const changeTodolistTitle = useCallback( (newTitle: string) => {
+    const changeTodolistTitle = useCallback((newTitle: string) => {
         dispatch(changeTodolistTitleTC(todolist.id, newTitle))
     }, [todolist.id])
-    const removeTodolist = useCallback( (todolistID: string) => {
+    const removeTodolist = useCallback((todolistID: string) => {
         dispatch(removeTodolistTC(todolistID))
     }, [dispatch])
-    const addTask = useCallback( (newTitle: string) => {
+    const addTask = useCallback((newTitle: string) => {
         dispatch(addTaskTC(todolist.id, newTitle))
     }, [todolist.id])
     //-------------------------------------------------------------------------------------------
@@ -55,7 +54,7 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
         tasksAfterFilter = tasks.filter(task => task.status === TaskStatuses.New)
     }
     if (todolist.filter === 'Completed') {
-        tasksAfterFilter = tasks.filter(task => task.status  === TaskStatuses.Completed)
+        tasksAfterFilter = tasks.filter(task => task.status === TaskStatuses.Completed)
     }
     //-------------------------------------------------------------------------------------------
     const tasksJSX = tasksAfterFilter.map(task => {
@@ -68,28 +67,28 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
 
     return (
         <div>
-            <div className={tl.todolist}>
+            <h3>
+                <EditableSpan title={todolist.title} changeTitle={changeTodolistTitle}/>
 
-                <div className={tl.titleTodolist}>
-                    <EditableSpan title={todolist.title} changeTitle={changeTodolistTitle}/>
-                    <Button name={'RemoveTL'} callback={() => removeTodolist(todolist.id)}/>
-                </div>
-                <div>
-                    <AddItemForm name={'Add Task'} addItem={addTask}/>
-                </div>
-                <ul>
-                    {tasksJSX}
-                </ul>
-                <div>
-                    <Button color={todolist.filter === 'All' ? s.activeFilter : ''} name={'All'}
-                            callback={() => tsarChangeFilter('All')}/>
-                    <Button color={todolist.filter === 'Active' ? s.activeFilter : ''} name={'Active'}
-                            callback={() => tsarChangeFilter('Active')}/>
-                    <Button color={todolist.filter === 'Completed' ? s.activeFilter : ''} name={'Completed'}
-                            callback={() => tsarChangeFilter('Completed')}/>
-                </div>
+                <IconButton color="secondary" onClick={()=>removeTodolist(todolist.id)} disabled={todolist.entityStatus === 'loading'}>
+                    <Delete />
+                </IconButton>
+            </h3>
+            <AddItemForm name={'Add Task'} addItem={addTask}/>
+            <div>
+                {tasksJSX}
             </div>
-        </div>
-    )
+            <div>
+                <Button variant={todolist.filter === 'All'  ? 'outlined' : 'text'} onClick={()=>tsarChangeFilter('All')}>
+                    All
+                </Button>
+                <Button variant={todolist.filter === 'Active' ? 'outlined' : 'text'} onClick={()=>tsarChangeFilter('Active')}>
+                    Active
+                </Button>
+                <Button variant={todolist.filter === 'Completed' ? 'outlined' : 'text'} onClick={()=>tsarChangeFilter('Completed')}>
+                    Completed
+                </Button>
+            </div>
+        </div>)
 })
 
