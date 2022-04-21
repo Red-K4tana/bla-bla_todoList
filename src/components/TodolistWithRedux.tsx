@@ -74,7 +74,7 @@ export const TodolistWithRedux = React.memo((props: TodolistPropsType) => {
                     <Delete />
                 </IconButton>
             </h3>
-            <AddItemForm name={'Add Task'} addItem={addTask}/>
+            <AddItemForm name={'Add Task'} addItem={addTask} todolistEntityStatus={todolist.entityStatus}/>
             <div>
                 {tasksJSX}
             </div>

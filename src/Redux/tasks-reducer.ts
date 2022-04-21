@@ -64,6 +64,10 @@ export const getTasksTC = (todolistID: string) => (dispatch: Dispatch) => {
             dispatch(getTasksAC(todolistID, res.data.items))
             dispatch(setAppStatusAC('succeeded'))
         })
+        .catch(error => {
+            dispatch(setAppErrorAC(error.message))
+            dispatch(setAppStatusAC('failed'))
+        })
 }
 export const removeTaskTC = (todolistID: string, taskID: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -71,6 +75,10 @@ export const removeTaskTC = (todolistID: string, taskID: string) => (dispatch: D
         .then(() => {
             dispatch(removeTaskItemAC(todolistID, taskID))
             dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(error => {
+            dispatch(setAppErrorAC(error.message))
+            dispatch(setAppStatusAC('failed'))
         })
 }
 export const addTaskTC = (todolistID: string, title: string) => (dispatch: Dispatch) => {
@@ -88,6 +96,10 @@ export const addTaskTC = (todolistID: string, title: string) => (dispatch: Dispa
                 }
                 dispatch(setAppStatusAC('failed'))
             }
+        })
+        .catch(error => {
+            dispatch(setAppErrorAC(error.message))
+            dispatch(setAppStatusAC('failed'))
         })
 }
 export const changeTaskStatusTC = (todolistID: string, taskID: string, status: TaskStatuses) => (dispatch: Dispatch, getState: ()=> AppRootStateType) => {
@@ -109,6 +121,10 @@ export const changeTaskStatusTC = (todolistID: string, taskID: string, status: T
                 dispatch(changeTaskStatusAC(todolistID, taskID, status))
                 dispatch(setAppStatusAC('succeeded'))
             })
+            .catch(error => {
+                dispatch(setAppErrorAC(error.message))
+                dispatch(setAppStatusAC('failed'))
+            })
     }
 }
 export const changeTaskTitleTC = (task: TaskType, newTitle: string) => (dispatch: Dispatch) => {
@@ -126,6 +142,10 @@ export const changeTaskTitleTC = (task: TaskType, newTitle: string) => (dispatch
         .then(res => {
             dispatch(changeTaskTitleAC(task.todoListId, task.id, newTitle))
             dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch(error => {
+            dispatch(setAppErrorAC(error.message))
+            dispatch(setAppStatusAC('failed'))
         })
 }
 

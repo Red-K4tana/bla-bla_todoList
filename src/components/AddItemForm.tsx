@@ -1,6 +1,4 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Input} from "./Input";
-import {Button} from "./Button";
 import TextField from '@mui/material/TextField';
 import {IconButton} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
@@ -8,6 +6,7 @@ import {AddBox} from "@mui/icons-material";
 type AddItemFormPropsType = {
     name: string
     addItem: (title: string)=> void
+    todolistEntityStatus?: string
 }
 
 export const AddItemForm = React.memo( (props: AddItemFormPropsType) => {
@@ -46,8 +45,9 @@ export const AddItemForm = React.memo( (props: AddItemFormPropsType) => {
                 onKeyPress={pressEnter}
                 error={error}
                 label="Title"
+                disabled={props.todolistEntityStatus === 'loading'} // disabled поля ввода удаляемого тудулиста
             />
-            <IconButton color="primary" onClick={addItem}>
+            <IconButton color="primary" onClick={addItem} disabled={props.todolistEntityStatus === 'loading'}>{/*disabled кнопки ввода удаляемого тудулиста*/}
                 <AddBox/>
             </IconButton>
             {error && errorMessage}
